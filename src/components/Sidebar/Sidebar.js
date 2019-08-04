@@ -1,17 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
-const Sidebar = () => {
-  const name = 'Sidebar';
+import style from './Sidebar.module.scss';
 
-  return (
-    <div>
-      {name}
-    </div>
-  );
-};
+const Sidebar = () => (
+  <aside className={style.sidebar}>
+    Sidebar
+  </aside>
+);
 
+/*
 Sidebar.propTypes = {
 };
+*/
 
 export default Sidebar;

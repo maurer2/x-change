@@ -1,17 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
+
+import style from './Main.module.scss';
 
 const Main = () => {
   const name = 'Main';
 
   return (
-    <div>
+    <main className={style.main}>
       {name}
-    </div>
+    </main>
   );
 };
 
+/*
 Main.propTypes = {
 };
+*/
 
 export default Main;
