@@ -3,18 +3,19 @@ import React from 'react';
 
 import style from './Main.module.scss';
 
-const Main = () => {
-  const name = 'Main';
-
+const Main = ({ data }) => {
   return (
     <main className={style.main}>
-      {name}
+      <pre>
+        { JSON.stringify(data, null, 2) }
+      </pre>
     </main>
   );
 };
 
 /*
 Main.propTypes = {
+  data: PropTypes.object.isRequired,
 };
 */
 
