@@ -1,0 +1,14 @@
+{
+  "body": {
+    "User": {
+      "profile": {
+        "firstName": "John",
+        "lastName": "Dai",
+        "nationality": "DE",
+        "currency": "EUR",
+        "updatedAt": "2016-12-23T09:01:12+00:00"
+      }
+    }
+  },
+  "statusCode": 200
+}

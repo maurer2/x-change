@@ -31,6 +31,7 @@ const fetchData = (url) => {
 
 function App() {
   const [data, setData] = useState({});
+  const [user, setUser] = useState({});
   // const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
@@ -40,14 +41,24 @@ function App() {
           return;
         }
 
-        const { documents } = responseData;
-        setData(documents);
+        setData(responseData.documents);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetchData('/user.json')
+      .then((responseData) => {
+        if (responseData === undefined) {
+          return;
+        }
+
+        setUser(responseData.body.User.profile);
       });
   }, []);
 
   return (
     <div className={style.app}>
-      <Header />
+      <Header user={user} />
       <div className={style.wrapper}>
         <Sidebar />
         <Main data={data} />

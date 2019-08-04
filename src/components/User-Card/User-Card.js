@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 
 import style from './User-Card.module.scss';
 
-const UserCard = ({ className }) => {
+const UserCard = ({ className, user }) => {
+  console.log(user);
+
   return (
     <div className={`${className} ${style.usercard}`}>
       <span className="icon">Icon</span>

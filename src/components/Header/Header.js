@@ -8,12 +8,12 @@ import { ReactComponent as Logo } from '../../assets/logo.svg';
 
 import style from './Header.module.scss';
 
-const Header = () => {
+const Header = ({ user }) => {
   return (
     <header className={style.header}>
       <Logo className={style.logo} />
       <NavPrimary className={style.usercard} />
-      <UserCard className={style.navigation} />
+      <UserCard className={style.navigation} user={user} />
     </header>
   );
 };
