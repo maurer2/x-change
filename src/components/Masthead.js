@@ -1,17 +1,24 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
+
+import NavPrimary from './Nav-Primary';
+import UserCard from './User-Card';
+
+import style from './Masthead.module.scss';
+
+import { ReactComponent as Logo } from '../assets/logo.svg';
 
 const Masthead = () => {
-  const name = 'Masthead';
-
   return (
-    <div>
-      {name}
-    </div>
+    <header className={style.masthead}>
+      <Logo className={style.logo} />
+      <NavPrimary className={style.usercard} />
+      <UserCard className={style.navigation} />
+    </header>
   );
 };
 
-Masthead.propTypes = {
-};
+// Masthead.propTypes = {
+// };
 
 export default Masthead;

@@ -1,0 +1,20 @@
+.masthead {
+  display: flex;
+  align-items: stretch;
+  background: blue;
+  color: white;
+}
+
+.logo {
+  margin-right: auto;
+  fill: currentColor;
+  align-self: center;
+}
+
+.navigation {
+  background: inherit;
+}
+
+.usercard {
+  background: inherit;
+}
