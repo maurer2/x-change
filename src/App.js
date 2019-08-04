@@ -2,12 +2,18 @@ import React from 'react';
 // import logo from './logo.svg';
 import './App.css';
 
-import Masthead from './components/Masthead';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+import Sidebar from './components/Sidebar/Sidebar';
+import Main from './components/Main/Main';
 
 function App() {
   return (
     <div className="App">
-      <Masthead />
+      <Header />
+      <Sidebar />
+      <Main />
+      <Footer />
     </div>
   );
 }
