@@ -7,6 +7,22 @@ import Sidebar from './Sidebar/Sidebar';
 import Main from './Main/Main';
 import Footer from './Footer/Footer';
 
+const filterDocuments = (documents = [], allowedTypes = []) => {
+  if (documents.length === 0 || allowedTypes.length === 0) {
+    return [];
+  }
+
+  const filteredDocuments = documents.filter((documentEntry) => {
+    const documentName = documentEntry.name;
+    const fileEnding = documentName.split('.').pop();
+    const isAllowedType = allowedTypes.includes(fileEnding);
+
+    return isAllowedType;
+  });
+
+  return filteredDocuments;
+};
+
 const fetchData = (url) => {
   return fetch(url)
     .then((response) => {
@@ -29,19 +45,34 @@ const fetchData = (url) => {
     });
 };
 
+const getDocuments = () => {
+  const documentsRaw = fetchData('/data.json')
+    .then((responseData) => {
+      if (responseData === undefined) {
+        return [];
+      }
+
+      const unfilteredDocuments = responseData.documents;
+      const filteredDocuments = filterDocuments(unfilteredDocuments, ['pdf', 'docx']);
+
+      return filteredDocuments;
+    });
+
+  return documentsRaw;
+};
+
 function App() {
-  const [data, setData] = useState({});
+  const [documents, setDocuments] = useState({});
   const [user, setUser] = useState({});
   // const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
-    fetchData('/data.json')
+    getDocuments()
       .then((responseData) => {
-        if (responseData === undefined) {
+        if (responseData.length === 0) {
           return;
         }
-
-        setData(responseData.documents);
+        setDocuments(responseData);
       });
   }, []);
 
@@ -61,7 +92,7 @@ function App() {
       <Header user={user} />
       <div className={style.wrapper}>
         <Sidebar />
-        <Main data={data} />
+        <Main documents={documents} />
       </div>
       <Footer />
     </div>

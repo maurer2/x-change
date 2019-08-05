@@ -3,11 +3,11 @@ import React from 'react';
 
 import style from './Main.module.scss';
 
-const Main = ({ data }) => {
+const Main = ({ documents }) => {
   return (
     <main className={style.main}>
       <pre>
-        { JSON.stringify(data, null, 2) }
+        { JSON.stringify(documents, null, 2) }
       </pre>
     </main>
   );
