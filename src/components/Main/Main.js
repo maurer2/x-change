@@ -9,10 +9,10 @@ const Main = ({ documents }) => {
   const resultsList = documents;
 
   return (
-    <main className={style.main}>
+    <div className={style.main}>
       <Results resultsList={resultsList} />
       <Pagination />
-    </main>
+    </div>
   );
 };
 

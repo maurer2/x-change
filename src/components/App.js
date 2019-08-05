@@ -90,10 +90,11 @@ function App() {
   return (
     <div className={style.app}>
       <Header user={user} />
-      <div className={style.wrapper}>
+      <h1 className={style.pageTitle}>Documents</h1>
+      <main className={style.wrapper}>
         <Sidebar />
         <Main documents={documents} />
-      </div>
+      </main>
       <Footer />
     </div>
   );

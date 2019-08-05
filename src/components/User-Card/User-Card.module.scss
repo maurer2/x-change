@@ -7,12 +7,14 @@
 
 .icon {
   display: block;
-  width: 30px;
+  width: 35px;
   height: auto;
-  padding-left: calc(var(--spacing) * 1.5);
-  padding-right: var(--spacing);
+  margin-left: calc(var(--spacing) * 1.5);
+  margin-right: var(--spacing);
   fill: white;
   box-sizing: content-box;
+  background: gray;
+  border-radius: 50%;
 }
 
 .userDetails {

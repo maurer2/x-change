@@ -1,6 +1,26 @@
 .footer {
   display: flex;
-  align-items: stretch;
-  background: blue;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  background: var(--blue);
   color: white;
+  font-size: 12px;
+}
+
+.link {
+  display: block;
+  padding-left: var(--spacing);
+  padding-right: var(--spacing);
+  color: white;
+  text-decoration: none;
+
+  &:active,
+  &:hover {
+    color: white;
+  }
+
+  & + & {
+    border-left: 1px solid white;
+  }
 }
