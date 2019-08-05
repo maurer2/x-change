@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import NavPrimary from '../Nav-Primary/Nav-Primary';
 import UserCard from '../User-Card/User-Card';
@@ -9,16 +9,18 @@ import { ReactComponent as Logo } from '../../assets/logo.svg';
 import style from './Header.module.scss';
 
 const Header = ({ user }) => {
+
   return (
     <header className={style.header}>
       <Logo className={style.logo} />
-      <NavPrimary className={style.usercard} />
-      <UserCard className={style.navigation} user={user} />
+      <NavPrimary />
+      <UserCard user={user} />
     </header>
   );
 };
 
-// Masthead.propTypes = {
-// };
+Header.propTypes = {
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
+};
 
 export default Header;

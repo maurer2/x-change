@@ -4,7 +4,13 @@
 
 .link {
   display: flex;
-  padding: 0 20px;
+  padding: 0 var(--spacing);
   align-items: center;
-  background: white;
+  color: white;
+  text-decoration: none;
+
+  &--is-active {
+    background: white;
+    color: var(--blue);
+  }
 }

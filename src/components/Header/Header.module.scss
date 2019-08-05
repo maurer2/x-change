@@ -1,7 +1,9 @@
 .header {
   display: flex;
+  height: 60px;
+  padding: 0 var(--spacing);
   align-items: stretch;
-  background: blue;
+  background: var(--blue);
   color: white;
 }
 
@@ -9,12 +11,4 @@
   margin-right: auto;
   fill: currentColor;
   align-self: center;
-}
-
-.navigation {
-  background: inherit;
-}
-
-.usercard {
-  background: inherit;
 }

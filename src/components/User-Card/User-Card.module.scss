@@ -1,7 +1,27 @@
 .usercard {
-  display: block;
-  margin-left: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
+  display: flex;
+  margin-left: calc(var(--spacing) * 2);
+  align-items: center;
   border-left: 2px solid white;
+}
+
+.icon {
+  display: block;
+  width: 30px;
+  height: auto;
+  padding-left: calc(var(--spacing) * 1.5);
+  padding-right: var(--spacing);
+  fill: white;
+  box-sizing: content-box;
+}
+
+.userDetails {
+  display: flex;
+  margin: 0;
+  flex-direction: column;
+}
+
+.userDetailsValue {
+  margin-top: calc(var(--spacing) / 5);
+  margin-bottom: calc(var(--spacing) / 5);
 }
