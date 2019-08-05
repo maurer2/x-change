@@ -3,6 +3,18 @@ import PropTypes from 'prop-types';
 
 import style from './Results.module.scss';
 
+function getSimpleDate(dateString) {
+  const newDate = new Date(dateString);
+
+  const day = (newDate.getDay()).toString().padStart(2, '0');
+  const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+  const year = (newDate.getFullYear()).toString().padStart(4, '0');
+
+  const newDateString = `${day}-${month}-${year}`;
+
+  return newDateString;
+}
+
 const Results = ({ resultsList }) => {
   const TableHeadRow = () => (
     <tr className={style.tableHeadRow}>
@@ -12,9 +24,11 @@ const Results = ({ resultsList }) => {
   );
 
   const TableBodyRow = ({ entry, index }) => (
-    <tr className={style.tableBodyRow} key={`tr-${index}`}>
+    <tr className={style.tableBodyRow} key={`tr-body-row-${index}`}>
       <td key={`td-${index}-name`}>{entry.name}</td>
-      <td key={`td-${index}-date`}>{entry.date}</td>
+      <td key={`td-${index}-date`}>
+        {getSimpleDate(entry.date)}
+      </td>
     </tr>
   );
 
@@ -25,7 +39,7 @@ const Results = ({ resultsList }) => {
       </thead>
       <tbody>
         {resultsList.map((entry, index) => (
-          <TableBodyRow key={`tr-body-${index}`} entry={entry} index={index} />
+          <TableBodyRow entry={entry} index={index} key={`tr-${index}`} />
         ))}
       </tbody>
     </table>
