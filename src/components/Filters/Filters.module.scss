@@ -1,0 +1,33 @@
+.filters {
+  padding: calc(var(--spacing)  * 0.75);
+  background: var(--gray);
+  border-radius: 5px;
+}
+
+.fieldset {
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  border: 0;
+}
+
+.legend {
+  display: block;
+  margin-bottom: var(--spacing);
+  float: left;
+  font-weight: bold;
+}
+
+.selectBox {
+  display: block;
+  width: 100%;
+  margin-top: calc(var(--spacing) * 0.5);
+  clear: both;
+}
+
+.submitButton,
+.resetButton {
+  display: block;
+  margin-top: calc(var(--spacing) * 0.5);
+  width: 100%;
+}

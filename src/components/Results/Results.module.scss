@@ -1,12 +1,17 @@
 .table {
   width: 100%;
-  table-layout: fixed;
+  // table-layout: fixed;
   border-spacing: 0;
-  background: white;
 }
 
 .tableHeadRow {
   background: none;
+  font-weight: bold;
+
+  > td {
+    padding-bottom: calc(var(--spacing) * 0.75);
+    padding-left: calc(var(--spacing) * 0.75);
+  }
 }
 
 .tableBodyRow {
@@ -14,5 +19,9 @@
 
   &:nth-child(odd) {
     background: gray;
+  }
+
+  > td {
+    padding: calc(var(--spacing) * 0.75);
   }
 }

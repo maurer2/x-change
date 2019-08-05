@@ -1,6 +1,7 @@
 .main {
   margin-left: var(--spacing);
-  padding: 20px;
-  background: whitesmoke;
+  padding: calc(var(--spacing) * 0.75);
   flex-grow: 1;
+  border-radius: 5px;
+  background: var(--gray);
 }
