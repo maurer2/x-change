@@ -62,7 +62,7 @@ const getDocuments = () => {
 };
 
 function App() {
-  const [documents, setDocuments] = useState({});
+  const [documents, setDocuments] = useState([]);
   const [user, setUser] = useState({});
   // const [isFetching, setIsFetching] = useState(false);
 

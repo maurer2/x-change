@@ -1,22 +1,23 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import style from './Main.module.scss';
+import Results from '../Results/Results';
+import Pagination from '../Pagination/Pagination';
 
 const Main = ({ documents }) => {
+  const resultsList = documents;
+
   return (
     <main className={style.main}>
-      <pre>
-        { JSON.stringify(documents, null, 2) }
-      </pre>
+      <Results resultsList={resultsList} />
+      <Pagination />
     </main>
   );
 };
 
-/*
 Main.propTypes = {
-  data: PropTypes.object.isRequired,
+  documents: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
-*/
 
 export default Main;

@@ -1,0 +1,18 @@
+.table {
+  width: 100%;
+  table-layout: fixed;
+  border-spacing: 0;
+  background: white;
+}
+
+.tableHeadRow {
+  background: none;
+}
+
+.tableBodyRow {
+  background: white;
+
+  &:nth-child(odd) {
+    background: gray;
+  }
+}
