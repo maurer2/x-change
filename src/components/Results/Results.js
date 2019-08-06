@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import style from './Results.module.scss';
@@ -15,11 +15,66 @@ function getSimpleDate(dateString) {
   return newDateString;
 }
 
+const sortResultsByDate = (results) => {
+  const resultsSorted = results.slice(0);
+
+  resultsSorted.sort((entryA, entryB) => {
+    if (entryA.date < entryB.date) {
+      return -1;
+    }
+
+    if (entryA.date > entryB.date) {
+      return 1;
+    }
+
+    return 0;
+  });
+
+  return resultsSorted;
+};
+
+const sortResultsByName = (results) => {
+  const resultsSorted = results.slice(0);
+
+  resultsSorted.sort((entryA, entryB) => entryA.name.localeCompare(entryB.name));
+
+  return resultsSorted;
+};
+
 const Results = ({ resultsList }) => {
+  const [sortByDate, setSortByDate] = useState(true);
+
+  const resultsSortedByDate = sortResultsByDate(resultsList);
+  const resultsSortedByName = sortResultsByName(resultsList);
+
+  const toggleSortByName = () => {
+    setSortByDate(false);
+  };
+
+  const toggleSortByDate = () => {
+    setSortByDate(true);
+  };
+
   const TableHeadRow = () => (
     <tr className={style.tableHeadRow}>
-      <td>Document Name</td>
-      <td>Date</td>
+      <td>
+        <button
+          className={`${style.button} ${sortByDate ? '' : style['button--is-active']}`}
+          type="button"
+          onClick={() => toggleSortByName()}
+        >
+          Document Name
+        </button>
+      </td>
+      <td>
+        <button
+          className={`${style.button} ${sortByDate ? style['button--is-active'] : ''}`}
+          type="button"
+          onClick={() => toggleSortByDate()}
+        >
+          Date
+        </button>
+      </td>
     </tr>
   );
 
@@ -38,7 +93,10 @@ const Results = ({ resultsList }) => {
         <TableHeadRow />
       </thead>
       <tbody>
-        {resultsList.map((entry, index) => (
+        {sortByDate && resultsSortedByDate.map((entry, index) => (
+          <TableBodyRow entry={entry} index={index} key={`tr-${index}`} />
+        ))}
+        {!sortByDate && resultsSortedByName.map((entry, index) => (
           <TableBodyRow entry={entry} index={index} key={`tr-${index}`} />
         ))}
       </tbody>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import logo from './logo.svg';
 import style from './App.module.scss';
 
 import Header from './Header/Header';
@@ -23,8 +22,21 @@ const filterDocuments = (documents = [], allowedTypes = []) => {
   return filteredDocuments;
 };
 
+const mapDocuments = (documents) => {
+  const mappedDocuments = documents.map((documentEntry) => {
+    const { name, date } = documentEntry;
+
+    return {
+      name,
+      date,
+    };
+  });
+
+  return mappedDocuments;
+};
+
 const fetchData = (url) => {
-  return fetch(url)
+  const data = fetch(url)
     .then((response) => {
       if (response.ok) {
         let jsonResponse;
@@ -43,6 +55,8 @@ const fetchData = (url) => {
     .catch((error) => {
       console.log(error);
     });
+
+  return data;
 };
 
 const getDocuments = () => {
