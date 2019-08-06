@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import style from './App.module.scss';
 
 import Header from './Header/Header';
@@ -22,84 +23,14 @@ const filterDocuments = (documents = [], allowedTypes = []) => {
   return filteredDocuments;
 };
 
-const mapDocuments = (documents) => {
-  const mappedDocuments = documents.map((documentEntry) => {
-    const { name, date } = documentEntry;
-
-    return {
-      name,
-      date,
-    };
-  });
-
-  return mappedDocuments;
-};
-
-const fetchData = (url) => {
-  const data = fetch(url)
-    .then((response) => {
-      if (response.ok) {
-        let jsonResponse;
-
-        try {
-          jsonResponse = response.json();
-        } catch (e) {
-          return new Error(e);
-        }
-
-        return jsonResponse;
-      }
-
-      return new Error();
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-  return data;
-};
-
-const getDocuments = () => {
-  const documentsRaw = fetchData('/data.json')
-    .then((responseData) => {
-      if (responseData === undefined) {
-        return [];
-      }
-
-      const unfilteredDocuments = responseData.documents;
-      const filteredDocuments = filterDocuments(unfilteredDocuments, ['pdf', 'docx']);
-
-      return filteredDocuments;
-    });
-
-  return documentsRaw;
-};
-
-function App() {
-  const [documents, setDocuments] = useState([]);
-  const [user, setUser] = useState({});
-  // const [isFetching, setIsFetching] = useState(false);
+function App({ user, documents }) {
+  const [transformedDocuments, setTransformedDocuments] = useState(documents);
 
   useEffect(() => {
-    getDocuments()
-      .then((responseData) => {
-        if (responseData.length === 0) {
-          return;
-        }
-        setDocuments(responseData);
-      });
-  }, []);
+    const filteredDocuments = filterDocuments(documents, ['pdf', 'docx']);
 
-  useEffect(() => {
-    fetchData('/user.json')
-      .then((responseData) => {
-        if (responseData === undefined) {
-          return;
-        }
-
-        setUser(responseData.body.User.profile);
-      });
-  }, []);
+    setTransformedDocuments(filteredDocuments);
+  }, [documents]);
 
   return (
     <div className={style.app}>
@@ -107,11 +38,16 @@ function App() {
       <h1 className={style.pageTitle}>Documents</h1>
       <main className={style.wrapper}>
         <Sidebar />
-        <Main documents={documents} />
+        <Main documents={transformedDocuments} />
       </main>
       <Footer />
     </div>
   );
 }
+
+App.propTypes = {
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
+  documents: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default App;

@@ -3,6 +3,6 @@ import ReactDOM from 'react-dom';
 
 import './global.scss';
 
-import App from './components/App';
+import AppContainer from './components/App-Container';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<AppContainer />, document.getElementById('root'));
