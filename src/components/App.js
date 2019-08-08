@@ -49,7 +49,7 @@ const sortResultsByName = (results) => {
 function App({ user, documents }) {
   const [transformedDocuments, setTransformedDocuments] = useState(documents);
   const [sortByDate, setSortByDate] = useState(true);
-  // const [sortInDescendingOrder, setSortInDescendingOrder] = useState(true);
+  const [sortInDescendingOrder, setSortInDescendingOrder] = useState(true);
 
   useEffect(() => {
     const filteredDocuments = filterDocuments(documents, ['pdf', 'docx']);

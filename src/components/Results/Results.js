@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import style from './Results.module.scss';
@@ -15,29 +15,37 @@ function getSimpleDate(dateString) {
   return newDateString;
 }
 
+const TableHeadButton = ({ sortByTarget, isActive, handleOnClick, children }) => (
+  <button
+    className={`${style.tableHeadButton} ${isActive ? style['tableHeadButton--isActive'] : ''}`}
+    type="button"
+    onClick={() => handleOnClick(sortByTarget)}
+  >
+    {children}
+  </button>
+);
+
 const Results = ({ resultsList, handleSortChange, sortByDate }) => {
-  const TableHeadRow = () => (
-    <tr className={style.tableHeadRow}>
-      <td>
-        <button
-          className={`${style.button} ${sortByDate ? '' : style['button--is-active']}`}
-          type="button"
-          onClick={() => handleSortChange('name')}
-        >
-          Document Name
-        </button>
-      </td>
-      <td>
-        <button
-          className={`${style.button} ${sortByDate ? style['button--is-active'] : ''}`}
-          type="button"
-          onClick={() => handleSortChange('date')}
-        >
-          Date
-        </button>
-      </td>
-    </tr>
-  );
+  const TableHeadRow = () => {
+    const handleOnClick = (sortByTarget) => {
+      handleSortChange(sortByTarget);
+    };
+
+    return (
+      <tr className={style.tableHeadRow}>
+        <td>
+          <TableHeadButton sortByTarget="name" isActive={!sortByDate} handleOnClick={handleOnClick}>
+            Document Name
+          </TableHeadButton>
+        </td>
+        <td>
+          <TableHeadButton sortByTarget="date" isActive={sortByDate} handleOnClick={handleOnClick}>
+            Date
+          </TableHeadButton>
+        </td>
+      </tr>
+    );
+  };
 
   const TableBodyRow = ({ entry, index }) => (
     <tr className={style.tableBodyRow} key={`tr-body-row-${index}`}>
@@ -66,6 +74,13 @@ Results.propTypes = {
   resultsList: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleSortChange: PropTypes.func.isRequired,
   sortByDate: PropTypes.bool.isRequired,
+};
+
+TableHeadButton.propTypes = {
+  sortByTarget: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  handleOnClick: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Results;

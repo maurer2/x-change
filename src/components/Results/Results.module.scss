@@ -8,34 +8,34 @@
   background: none;
   font-weight: bold;
 
-  > td {
+  td {
     padding-bottom: calc(var(--spacing) * 0.75);
     padding-left: calc(var(--spacing) * 0.75);
+  }
 
-    .button {
-      appearance: none;
-      border: 0;
-      background: none;
-      font-weight: bold;
-      font-size: 16px;
-    }
+  .tableHeadButton {
+    appearance: none;
+    border: 0;
+    background: none;
+    font-weight: bold;
+    font-size: 16px;
+  }
 
-    .button--is-active {
-      position: relative;
-      padding-right: 15px;
+  .tableHeadButton--isActive {
+    position: relative;
+    padding-right: 15px;
 
-      &:after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        right: 0;
-        width: 0;
-        height: 0;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 5px solid black;
-        transform: translateY(-50%);
-      }
+    &:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid black;
+      transform: translateY(-50%);
     }
   }
 }
