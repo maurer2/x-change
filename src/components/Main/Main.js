@@ -5,12 +5,16 @@ import style from './Main.module.scss';
 import Results from '../Results/Results';
 import Pagination from '../Pagination/Pagination';
 
-const Main = ({ documents }) => {
+const Main = ({ documents, handleSortChange, sortByDate }) => {
   const resultsList = documents;
 
   return (
     <div className={style.main}>
-      <Results resultsList={resultsList} />
+      <Results
+        resultsList={resultsList}
+        handleSortChange={handleSortChange}
+        sortByDate={sortByDate}
+      />
       <Pagination />
     </div>
   );
@@ -18,6 +22,8 @@ const Main = ({ documents }) => {
 
 Main.propTypes = {
   documents: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleSortChange: PropTypes.func.isRequired,
+  sortByDate: PropTypes.bool.isRequired,
 };
 
 export default Main;

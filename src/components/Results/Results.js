@@ -15,53 +15,14 @@ function getSimpleDate(dateString) {
   return newDateString;
 }
 
-const sortResultsByDate = (results) => {
-  const resultsSorted = results.slice(0);
-
-  resultsSorted.sort((entryA, entryB) => {
-    if (entryA.date < entryB.date) {
-      return -1;
-    }
-
-    if (entryA.date > entryB.date) {
-      return 1;
-    }
-
-    return 0;
-  });
-
-  return resultsSorted;
-};
-
-const sortResultsByName = (results) => {
-  const resultsSorted = results.slice(0);
-
-  resultsSorted.sort((entryA, entryB) => entryA.name.localeCompare(entryB.name));
-
-  return resultsSorted;
-};
-
-const Results = ({ resultsList }) => {
-  const [sortByDate, setSortByDate] = useState(true);
-
-  const resultsSortedByDate = sortResultsByDate(resultsList);
-  const resultsSortedByName = sortResultsByName(resultsList);
-
-  const toggleSortByName = () => {
-    setSortByDate(false);
-  };
-
-  const toggleSortByDate = () => {
-    setSortByDate(true);
-  };
-
+const Results = ({ resultsList, handleSortChange, sortByDate }) => {
   const TableHeadRow = () => (
     <tr className={style.tableHeadRow}>
       <td>
         <button
           className={`${style.button} ${sortByDate ? '' : style['button--is-active']}`}
           type="button"
-          onClick={() => toggleSortByName()}
+          onClick={() => handleSortChange('name')}
         >
           Document Name
         </button>
@@ -70,7 +31,7 @@ const Results = ({ resultsList }) => {
         <button
           className={`${style.button} ${sortByDate ? style['button--is-active'] : ''}`}
           type="button"
-          onClick={() => toggleSortByDate()}
+          onClick={() => handleSortChange('date')}
         >
           Date
         </button>
@@ -93,10 +54,7 @@ const Results = ({ resultsList }) => {
         <TableHeadRow />
       </thead>
       <tbody>
-        {sortByDate && resultsSortedByDate.map((entry, index) => (
-          <TableBodyRow entry={entry} index={index} key={`tr-${index}`} />
-        ))}
-        {!sortByDate && resultsSortedByName.map((entry, index) => (
+        {resultsList.map((entry, index) => (
           <TableBodyRow entry={entry} index={index} key={`tr-${index}`} />
         ))}
       </tbody>
@@ -106,6 +64,8 @@ const Results = ({ resultsList }) => {
 
 Results.propTypes = {
   resultsList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleSortChange: PropTypes.func.isRequired,
+  sortByDate: PropTypes.bool.isRequired,
 };
 
 export default Results;

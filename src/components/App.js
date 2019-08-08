@@ -23,14 +23,48 @@ const filterDocuments = (documents = [], allowedTypes = []) => {
   return filteredDocuments;
 };
 
+const sortResultsByDate = (results) => {
+  const resultsSorted = results.slice(0).sort((entryA, entryB) => {
+    if (entryA.date < entryB.date) {
+      return -1;
+    }
+
+    if (entryA.date > entryB.date) {
+      return 1;
+    }
+
+    return 0;
+  });
+
+  return resultsSorted;
+};
+
+const sortResultsByName = (results) => {
+  const resultsSorted = results.slice(0)
+    .sort((entryA, entryB) => entryA.name.localeCompare(entryB.name));
+
+  return resultsSorted;
+};
+
 function App({ user, documents }) {
   const [transformedDocuments, setTransformedDocuments] = useState(documents);
+  const [sortByDate, setSortByDate] = useState(true);
+  // const [sortInDescendingOrder, setSortInDescendingOrder] = useState(true);
 
   useEffect(() => {
     const filteredDocuments = filterDocuments(documents, ['pdf', 'docx']);
+    const sortedDocuments = sortByDate
+      ? sortResultsByDate(filteredDocuments)
+      : sortResultsByName(filteredDocuments);
 
-    setTransformedDocuments(filteredDocuments);
-  }, [documents]);
+    setTransformedDocuments(sortedDocuments);
+  }, [documents, sortByDate]);
+
+  const handleSortChange = (sortyKey) => {
+    const newSortByDateValue = (sortyKey === 'date');
+
+    setSortByDate(newSortByDateValue);
+  };
 
   return (
     <div className={style.app}>
@@ -38,7 +72,11 @@ function App({ user, documents }) {
       <h1 className={style.pageTitle}>Documents</h1>
       <main className={style.wrapper}>
         <Sidebar />
-        <Main documents={transformedDocuments} />
+        <Main
+          documents={transformedDocuments}
+          handleSortChange={handleSortChange}
+          sortByDate={sortByDate}
+        />
       </main>
       <Footer />
     </div>
