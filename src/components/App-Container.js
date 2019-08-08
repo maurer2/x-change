@@ -53,6 +53,32 @@ const getUser = () => {
   return documentsRaw;
 };
 
+const getShortDate = (dateString) => {
+  const newDate = new Date(dateString);
+
+  const day = (newDate.getDay()).toString().padStart(2, '0');
+  const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+  const year = (newDate.getFullYear()).toString().padStart(4, '0');
+
+  const newDateString = `${day}-${month}-${year}`;
+
+  return newDateString;
+}
+
+const addShortDateToDocuments = (documents) => {
+  const augmentedDocuments = documents.map((documentEntry) => {
+    const extendedDocumentEntry = {
+      name: documentEntry.name,
+      date: documentEntry.date,
+      dateShort: getShortDate(documentEntry.date),
+    };
+
+    return extendedDocumentEntry;
+  });
+
+  return augmentedDocuments;
+};
+
 function AppContainer() {
   const [documents, setDocuments] = useState([]);
   const [user, setUser] = useState({});
@@ -64,7 +90,9 @@ function AppContainer() {
         if (responseData.length === 0) {
           return;
         }
-        setDocuments(responseData);
+
+        const augmentedDocuments = addShortDateToDocuments(responseData);
+        setDocuments(augmentedDocuments);
       });
   }, []);
 

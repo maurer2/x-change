@@ -3,28 +3,15 @@ import PropTypes from 'prop-types';
 
 import style from './Filters.module.scss';
 
-function getSimpleDate(dateString) {
-  const newDate = new Date(dateString);
-
-  const day = (newDate.getDay()).toString().padStart(2, '0');
-  const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
-  const year = (newDate.getFullYear()).toString().padStart(4, '0');
-
-  const newDateString = `${day}-${month}-${year}`;
-
-  return newDateString;
-}
-
 const Filters = ({ documents }) => {
   const [documentDates, setDocumentDates] = useState([]);
   useEffect(() => {
-    const extractedDates = documents.map(documentEntry => documentEntry.date);
-    const simplifiedDates = extractedDates
-      .map(documentEntry => getSimpleDate(documentEntry))
+    const extractedDates = documents.map(documentEntry => documentEntry.dateShort);
+    const uniqueDates = extractedDates
       .filter((documentEntry, index, currentArray) => currentArray
         .indexOf(documentEntry) === index);
 
-    setDocumentDates(simplifiedDates);
+    setDocumentDates(uniqueDates);
   }, [documents]);
 
   const handleSubmit = (event) => {
