@@ -15,9 +15,13 @@ function getSimpleDate(dateString) {
   return newDateString;
 }
 
-const TableHeadButton = ({ sortByTarget, isActive, handleOnClick, children }) => (
+const TableHeadButton = ({ sortByTarget, isActive, isInverted, handleOnClick, children }) => (
   <button
-    className={`${style.tableHeadButton} ${isActive ? style['tableHeadButton--isActive'] : ''}`}
+    className={`
+      ${style.tableHeadButton}
+      ${isActive ? style['tableHeadButton--isActive'] : ''}
+      ${isInverted ? style['tableHeadButton--isInverted'] : ''}
+    `}
     type="button"
     onClick={() => handleOnClick(sortByTarget)}
   >
@@ -25,7 +29,7 @@ const TableHeadButton = ({ sortByTarget, isActive, handleOnClick, children }) =>
   </button>
 );
 
-const Results = ({ resultsList, handleSortChange, sortByDate }) => {
+const Results = ({ resultsList, handleSortChange, sortByDate, sortInDescendingOrder }) => {
   const TableHeadRow = () => {
     const handleOnClick = (sortByTarget) => {
       handleSortChange(sortByTarget);
@@ -34,12 +38,22 @@ const Results = ({ resultsList, handleSortChange, sortByDate }) => {
     return (
       <tr className={style.tableHeadRow}>
         <td>
-          <TableHeadButton sortByTarget="name" isActive={!sortByDate} handleOnClick={handleOnClick}>
+          <TableHeadButton
+            sortByTarget="name"
+            isActive={!sortByDate}
+            isInverted={sortInDescendingOrder}
+            handleOnClick={handleOnClick}
+          >
             Document Name
           </TableHeadButton>
         </td>
         <td>
-          <TableHeadButton sortByTarget="date" isActive={sortByDate} handleOnClick={handleOnClick}>
+          <TableHeadButton
+            sortByTarget="date"
+            isActive={sortByDate}
+            isInverted={sortInDescendingOrder}
+            handleOnClick={handleOnClick}
+          >
             Date
           </TableHeadButton>
         </td>
@@ -74,11 +88,13 @@ Results.propTypes = {
   resultsList: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleSortChange: PropTypes.func.isRequired,
   sortByDate: PropTypes.bool.isRequired,
+  sortInDescendingOrder: PropTypes.bool.isRequired,
 };
 
 TableHeadButton.propTypes = {
-  sortByTarget: PropTypes.bool.isRequired,
+  sortByTarget: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
+  isInverted: PropTypes.bool.isRequired,
   handleOnClick: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
 };

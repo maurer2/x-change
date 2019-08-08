@@ -32,10 +32,18 @@
       right: 0;
       width: 0;
       height: 0;
+      border-top: 5px solid black;
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      border-top: 5px solid black;
+      border-bottom: 0 solid transparent;
       transform: translateY(-50%);
+    }
+
+    &.tableHeadButton--isInverted {
+      &:after {
+        border-top: 0 solid transparent;
+        border-bottom: 5px solid black;
+      }
     }
   }
 }
@@ -47,7 +55,7 @@
     background: gray;
   }
 
-  > td {
+  td {
     padding: calc(var(--spacing) * 0.75);
   }
 }

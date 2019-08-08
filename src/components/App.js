@@ -46,6 +46,12 @@ const sortResultsByName = (results) => {
   return resultsSorted;
 };
 
+const changeSortOrder = (results) => {
+  const reversedResults = results.slice(0).reverse();
+
+  return reversedResults;
+};
+
 function App({ user, documents }) {
   const [transformedDocuments, setTransformedDocuments] = useState(documents);
   const [sortByDate, setSortByDate] = useState(true);
@@ -53,15 +59,25 @@ function App({ user, documents }) {
 
   useEffect(() => {
     const filteredDocuments = filterDocuments(documents, ['pdf', 'docx']);
-    const sortedDocuments = sortByDate
+    const sortedByKeyDocuments = sortByDate
       ? sortResultsByDate(filteredDocuments)
       : sortResultsByName(filteredDocuments);
 
-    setTransformedDocuments(sortedDocuments);
+    setTransformedDocuments(sortedByKeyDocuments);
   }, [documents, sortByDate]);
 
-  const handleSortChange = (sortyKey) => {
-    const newSortByDateValue = (sortyKey === 'date');
+  useEffect(() => {
+    const sortedByDirection = changeSortOrder(transformedDocuments);
+
+    setTransformedDocuments(sortedByDirection);
+  }, [sortInDescendingOrder]);
+
+  const handleSortChange = (sortByKey) => {
+    const newSortByDateValue = (sortByKey === 'date');
+
+    if (newSortByDateValue === sortByDate) {
+      setSortInDescendingOrder(!sortInDescendingOrder);
+    }
 
     setSortByDate(newSortByDateValue);
   };
@@ -69,13 +85,16 @@ function App({ user, documents }) {
   return (
     <div className={style.app}>
       <Header user={user} />
-      <h1 className={style.pageTitle}>Documents</h1>
+      <h1 className={style.pageTitle}>
+        Documents
+      </h1>
       <main className={style.wrapper}>
         <Sidebar />
         <Main
           documents={transformedDocuments}
           handleSortChange={handleSortChange}
           sortByDate={sortByDate}
+          sortInDescendingOrder={sortInDescendingOrder}
         />
       </main>
       <Footer />
