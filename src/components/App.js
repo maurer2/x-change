@@ -56,6 +56,8 @@ function App({ user, documents }) {
   const [transformedDocuments, setTransformedDocuments] = useState(documents);
   const [sortByDate, setSortByDate] = useState(true);
   const [sortInDescendingOrder, setSortInDescendingOrder] = useState(true);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   useEffect(() => {
     const filteredDocuments = filterDocuments(documents, ['pdf', 'docx']);
@@ -89,7 +91,7 @@ function App({ user, documents }) {
         Documents
       </h1>
       <main className={style.wrapper}>
-        <Sidebar />
+        <Sidebar documents={transformedDocuments} />
         <Main
           documents={transformedDocuments}
           handleSortChange={handleSortChange}
