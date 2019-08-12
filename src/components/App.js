@@ -7,7 +7,7 @@ import Sidebar from './Sidebar/Sidebar';
 import Main from './Main/Main';
 import Footer from './Footer/Footer';
 
-const filterDocuments = (documents = [], allowedTypes = []) => {
+const filterDocumentsByType = (documents = [], allowedTypes = []) => {
   if (documents.length === 0 || allowedTypes.length === 0) {
     return [];
   }
@@ -18,6 +18,22 @@ const filterDocuments = (documents = [], allowedTypes = []) => {
     const isAllowedType = allowedTypes.includes(fileEnding);
 
     return isAllowedType;
+  });
+
+  return filteredDocuments;
+};
+
+const filterDocumentsByDate = (documents = [], startDate = '', endDate = '') => {
+  if (startDate === '' || endDate === '') {
+    return documents;
+  }
+
+  const filteredDocuments = documents.filter((documentEntry) => {
+    const documentDateShort = documentEntry.dateShort;
+    const lowerBounds = documentDateShort >= startDate;
+    const upperBounds = documentDateShort <= endDate;
+
+    return lowerBounds && upperBounds;
   });
 
   return filteredDocuments;
@@ -58,9 +74,10 @@ function App({ user, documents }) {
   const [sortInDescendingOrder, setSortInDescendingOrder] = useState(true);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [filtersAreEnabled, setFiltersAreEnabled] = useState(false);
 
   useEffect(() => {
-    const filteredDocuments = filterDocuments(documents, ['pdf', 'docx']);
+    const filteredDocuments = filterDocumentsByType(documents, ['pdf', 'docx']);
     const sortedByKeyDocuments = sortByDate
       ? sortResultsByDate(filteredDocuments)
       : sortResultsByName(filteredDocuments);
@@ -74,22 +91,39 @@ function App({ user, documents }) {
     setTransformedDocuments(sortedByDirection);
   }, [sortInDescendingOrder]);
 
+  useEffect(() => {
+    if (filtersAreEnabled) {
+      const filteredByDate = filterDocumentsByDate(transformedDocuments, startDate, endDate);
+
+      setTransformedDocuments(filteredByDate);
+    }
+
+    console.log('filtersAreEnabled', filtersAreEnabled);
+  }, [filtersAreEnabled, startDate, endDate]);
+
   const handleSortChange = (sortByKey) => {
     const newSortByDateValue = (sortByKey === 'date');
 
     if (newSortByDateValue === sortByDate) {
       setSortInDescendingOrder(!sortInDescendingOrder);
+
+      return;
     }
 
     setSortByDate(newSortByDateValue);
   };
 
-  const handleStartDateChange = (value) => {
-    setStartDate(value);
-  };
+  const handleStartDateChange = value => setStartDate(value);
+  const handleEndDateChange = value => setEndDate(value);
 
-  const handleEndDateChange = (value) => {
-    setEndDate(value);
+  const handleFilterSubmit = (type) => {
+    if (type === 'reset') {
+      setFiltersAreEnabled(false);
+
+      return;
+    }
+
+    setFiltersAreEnabled(true);
   };
 
   return (
@@ -105,6 +139,7 @@ function App({ user, documents }) {
           handleEndDateChange={handleEndDateChange}
           startDate={startDate}
           endDate={endDate}
+          handleFilterSubmit={handleFilterSubmit}
         />
         <Main
           documents={transformedDocuments}

@@ -5,7 +5,7 @@ import Filters from '../Filters/Filters';
 
 import style from './Sidebar.module.scss';
 
-const Sidebar = ({ documents, handleStartDateChange, handleEndDateChange, startDate, endDate }) => (
+const Sidebar = ({ documents, handleStartDateChange, handleEndDateChange, startDate, endDate, handleFilterSubmit }) => (
   <aside className={style.sidebar}>
     <Filters
       documents={documents}
@@ -13,6 +13,7 @@ const Sidebar = ({ documents, handleStartDateChange, handleEndDateChange, startD
       handleEndDateChange={handleEndDateChange}
       startDate={startDate}
       endDate={endDate}
+      handleFilterSubmit={handleFilterSubmit}
     />
   </aside>
 );
@@ -23,6 +24,7 @@ Sidebar.propTypes = {
   handleEndDateChange: PropTypes.func.isRequired,
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
+  handleFilterSubmit: PropTypes.func.isRequired,
 };
 
 export default Sidebar;

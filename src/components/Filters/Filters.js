@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import style from './Filters.module.scss';
 
-const Filters = ({ documents, handleStartDateChange, handleEndDateChange, startDate, endDate }) => {
+const Filters = ({ documents, handleStartDateChange, handleEndDateChange, startDate, endDate, handleFilterSubmit }) => {
   const [documentDates, setDocumentDates] = useState([]);
   const [filtersEnabled, setFiltersEnabled] = useState(false);
 
@@ -27,12 +27,14 @@ const Filters = ({ documents, handleStartDateChange, handleEndDateChange, startD
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    console.log('submit');
+    handleFilterSubmit('filter');
   };
 
   const handleFormReset = () => {
     handleStartDateChange('');
     handleEndDateChange('');
+
+    handleFilterSubmit('reset');
   };
 
   return (
@@ -84,6 +86,7 @@ Filters.propTypes = {
   handleEndDateChange: PropTypes.func.isRequired,
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
+  handleFilterSubmit: PropTypes.func.isRequired,
 };
 
 export default Filters;
