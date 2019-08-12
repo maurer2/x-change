@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 
 import style from './Filters.module.scss';
 
-const Filters = ({ documents }) => {
+const Filters = ({ documents, handleStartDateChange, handleEndDateChange, startDate, endDate }) => {
   const [documentDates, setDocumentDates] = useState([]);
   const [filtersEnabled, setFiltersEnabled] = useState(false);
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
 
   useEffect(() => {
     const extractedDates = documents.map(documentEntry => documentEntry.dateShort);
@@ -26,14 +24,6 @@ const Filters = ({ documents }) => {
     }
   }, [startDate, endDate, filtersEnabled]);
 
-  const handleStartDateChange = (event) => {
-    setStartDate(event.target.value);
-  };
-
-  const handleEndDateChange = (event) => {
-    setEndDate(event.target.value);
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -41,8 +31,8 @@ const Filters = ({ documents }) => {
   };
 
   const handleFormReset = () => {
-    setStartDate('');
-    setEndDate('');
+    handleStartDateChange('');
+    handleEndDateChange('');
   };
 
   return (
@@ -54,7 +44,7 @@ const Filters = ({ documents }) => {
         <select
           className={style.selectBox}
           value={startDate}
-          onChange={event => handleStartDateChange(event)}
+          onChange={event => handleStartDateChange(event.target.value)}
         >
           <option value="" disabled>From</option>
           {documentDates.map(documentDate => (
@@ -64,11 +54,13 @@ const Filters = ({ documents }) => {
         <select
           className={style.selectBox}
           value={endDate}
-          onChange={event => handleEndDateChange(event)}
+          onChange={event => handleEndDateChange(event.target.value)}
         >
           <option value="" disabled>To</option>
           {documentDates.map(documentDate => (
-            <option key={documentDate} value={documentDate}>{documentDate}</option>
+            <option key={documentDate} value={documentDate}>
+              {documentDate}
+            </option>
           ))}
         </select>
       </fieldset>
@@ -79,7 +71,7 @@ const Filters = ({ documents }) => {
       >
         Apply filters
       </button>
-      <button className={style.resetButton} type="button" onClick={() => handleFormReset()}>
+      <button className={style.resetButton} onClick={() => handleFormReset()} type="button">
         Clear Filters
       </button>
     </form>
@@ -88,6 +80,10 @@ const Filters = ({ documents }) => {
 
 Filters.propTypes = {
   documents: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleStartDateChange: PropTypes.func.isRequired,
+  handleEndDateChange: PropTypes.func.isRequired,
+  startDate: PropTypes.string.isRequired,
+  endDate: PropTypes.string.isRequired,
 };
 
 export default Filters;
