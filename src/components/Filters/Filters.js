@@ -5,6 +5,10 @@ import style from './Filters.module.scss';
 
 const Filters = ({ documents }) => {
   const [documentDates, setDocumentDates] = useState([]);
+  const [filtersEnabled, setFiltersEnabled] = useState(false);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
   useEffect(() => {
     const extractedDates = documents.map(documentEntry => documentEntry.dateShort);
     const uniqueDates = extractedDates
@@ -14,35 +18,69 @@ const Filters = ({ documents }) => {
     setDocumentDates(uniqueDates);
   }, [documents]);
 
+  useEffect(() => {
+    if (startDate !== '' && endDate !== '') {
+      setFiltersEnabled(true);
+    }
+  }, [startDate, endDate, filtersEnabled]);
+
+  const handleStartDateChange = (event) => {
+    setStartDate(event.target.value);
+  };
+
+  const handleEndDateChange = (event) => {
+    setEndDate(event.target.value);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     console.log('submit');
   };
 
+  const handleFormReset = () => {
+    setStartDate('');
+    setEndDate('');
+  };
+
   return (
-    <form className={style.filters} onSubmit={handleSubmit} action="/" method="post">
+    <form className={style.filters} onSubmit={handleSubmit} action="" method="post">
       <fieldset className={style.fieldset}>
         <legend className={style.legend}>
           Filter by
         </legend>
-        <select className={style.selectBox} defaultValue={-1}>
-          <option value="-1" default disabled>From</option>
+        { startDate.toString() }
+        { endDate.toString() }
+        { filtersEnabled.toString() }
+        <select
+          className={style.selectBox}
+          defaultValue={0}
+          onChange={event => handleStartDateChange(event)}
+        >
+          <option value={0} disabled>From</option>
           {documentDates.map(documentDate => (
             <option key={documentDate}>{documentDate}</option>
           ))}
         </select>
-        <select className={style.selectBox} defaultValue={-1}>
-          <option value="-1" default disabled>To</option>
+        <select
+          className={style.selectBox}
+          defaultValue={0}
+          onChange={event => handleEndDateChange(event)}
+        >
+          <option value={0} disabled>To</option>
           {documentDates.map(documentDate => (
             <option key={documentDate}>{documentDate}</option>
           ))}
         </select>
       </fieldset>
-      <button className={style.submitButton} type="submit">
+      <button
+        className={`${style.submitButton} ${filtersEnabled ? '' : style['submitButton--is-disabled']}`}
+        disabled={!filtersEnabled}
+        type="submit"
+      >
         Apply filters
       </button>
-      <button className={style.resetButton} type="button">
+      <button className={style.resetButton} type="button" onClick={() => handleFormReset()}>
         Clear Filters
       </button>
     </form>

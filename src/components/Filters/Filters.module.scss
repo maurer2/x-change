@@ -47,9 +47,12 @@
 
 .submitButton {
   background: #2D4596;
+
+  &--is-disabled {
+    background: gray;
+  }
 }
 
 .resetButton {
   background: #EAAC4C;
 }
-
