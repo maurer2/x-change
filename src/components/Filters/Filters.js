@@ -21,6 +21,8 @@ const Filters = ({ documents }) => {
   useEffect(() => {
     if (startDate !== '' && endDate !== '') {
       setFiltersEnabled(true);
+    } else {
+      setFiltersEnabled(false);
     }
   }, [startDate, endDate, filtersEnabled]);
 
@@ -49,27 +51,24 @@ const Filters = ({ documents }) => {
         <legend className={style.legend}>
           Filter by
         </legend>
-        { startDate.toString() }
-        { endDate.toString() }
-        { filtersEnabled.toString() }
         <select
           className={style.selectBox}
-          defaultValue={0}
+          value={startDate}
           onChange={event => handleStartDateChange(event)}
         >
-          <option value={0} disabled>From</option>
+          <option value="" disabled>From</option>
           {documentDates.map(documentDate => (
-            <option key={documentDate}>{documentDate}</option>
+            <option key={documentDate} value={documentDate}>{documentDate}</option>
           ))}
         </select>
         <select
           className={style.selectBox}
-          defaultValue={0}
+          value={endDate}
           onChange={event => handleEndDateChange(event)}
         >
-          <option value={0} disabled>To</option>
+          <option value="" disabled>To</option>
           {documentDates.map(documentDate => (
-            <option key={documentDate}>{documentDate}</option>
+            <option key={documentDate} value={documentDate}>{documentDate}</option>
           ))}
         </select>
       </fieldset>
