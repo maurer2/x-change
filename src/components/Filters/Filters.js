@@ -3,6 +3,37 @@ import PropTypes from 'prop-types';
 
 import style from './Filters.module.scss';
 
+const sortByDate = (results) => {
+  const resultsSorted = results.slice(0).sort((entryA, entryB) => {
+    if (entryA.date < entryB.date) {
+      return -1;
+    }
+
+    if (entryA.date > entryB.date) {
+      return 1;
+    }
+
+    return 0;
+  });
+
+  return resultsSorted;
+};
+
+const getDocumentsWithUniqueShortDates = (documents) => {
+  const documentsWithUniqueDates = documents.reduce((total, current) => {
+    const hasAlreadyEntryWithCurrentDate = total
+      .some(documentEntry => documentEntry.dateShort === current.dateShort);
+
+    if (hasAlreadyEntryWithCurrentDate) {
+      return total;
+    }
+
+    return total.concat([current]);
+  }, []);
+
+  return documentsWithUniqueDates;
+};
+
 const Filters = ({ documents, handleFilterUpdate }) => {
   const [documentDates, setDocumentDates] = useState([]);
   const [filtersEnabled, setFiltersEnabled] = useState(false);
@@ -10,13 +41,11 @@ const Filters = ({ documents, handleFilterUpdate }) => {
   const [endDate, setEndDate] = useState('');
 
   useEffect(() => {
-    const extractedDates = documents.map(documentEntry => documentEntry.dateShort);
-    const uniqueDates = extractedDates
-      .filter((documentEntry, index, currentArray) => currentArray
-        .indexOf(documentEntry) === index);
+    const sortedDocuments = sortByDate(documents, startDate, endDate);
+    const uniqueDocumentDates = getDocumentsWithUniqueShortDates(sortedDocuments);
 
-    setDocumentDates(uniqueDates);
-  }, [documents]);
+    setDocumentDates(uniqueDocumentDates);
+  }, [documents, startDate, endDate]);
 
   useEffect(() => {
     if (startDate !== '' && endDate !== '') {
@@ -57,8 +86,8 @@ const Filters = ({ documents, handleFilterUpdate }) => {
         >
           <option value="" disabled>From</option>
           {documentDates.map(documentDate => (
-            <option key={documentDate} value={documentDate}>
-              {documentDate}
+            <option key={documentDate.dateShort} value={documentDate.date}>
+              {documentDate.dateShort}
             </option>
           ))}
         </select>
@@ -69,8 +98,8 @@ const Filters = ({ documents, handleFilterUpdate }) => {
         >
           <option value="" disabled>To</option>
           {documentDates.map(documentDate => (
-            <option key={documentDate} value={documentDate}>
-              {documentDate}
+            <option key={documentDate.dateShort} value={documentDate.date}>
+              {documentDate.dateShort}
             </option>
           ))}
         </select>

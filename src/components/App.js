@@ -13,9 +13,9 @@ const filterDocumentsByDate = (documents = [], startDate = '', endDate = '') => 
   }
 
   const filteredDocuments = documents.filter((documentEntry) => {
-    const documentDateShort = documentEntry.dateShort;
-    const lowerBounds = documentDateShort >= startDate;
-    const upperBounds = documentDateShort <= endDate;
+    const documentDate = documentEntry.date;
+    const lowerBounds = documentDate >= startDate;
+    const upperBounds = documentDate <= endDate;
 
     return lowerBounds && upperBounds;
   });
