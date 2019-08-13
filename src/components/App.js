@@ -58,19 +58,16 @@ function App({ user, documents }) {
   const [sortInDescendingOrder, setSortInDescendingOrder] = useState(true);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [filtersAreEnabled, setFiltersAreEnabled] = useState(false);
 
   useEffect(() => {
-    const filteredDocuments = (filtersAreEnabled)
-      ? filterDocumentsByDate(documents, startDate, endDate)
-      : documents;
+    const filteredDocuments = filterDocumentsByDate(documents, startDate, endDate);
 
     const sortedDocuments = (sortByDate)
       ? sortResultsByDate(filteredDocuments)
       : sortResultsByName(filteredDocuments);
 
     setTransformedDocuments(sortedDocuments);
-  }, [documents, sortByDate, filtersAreEnabled, startDate, endDate]);
+  }, [documents, sortByDate, startDate, endDate]);
 
   useEffect(() => {
     const sortedByDirection = changeSortOrder(transformedDocuments);
@@ -90,17 +87,9 @@ function App({ user, documents }) {
     setSortByDate(newSortByDateValue);
   };
 
-  const handleStartDateChange = value => setStartDate(value);
-  const handleEndDateChange = value => setEndDate(value);
-
-  const handleFilterSubmit = (type) => {
-    if (type === 'reset') {
-      setFiltersAreEnabled(false);
-
-      return;
-    }
-
-    setFiltersAreEnabled(true);
+  const handleFilterUpdate = (newStartDate, newEndDate) => {
+    setStartDate(newStartDate);
+    setEndDate(newEndDate);
   };
 
   return (
@@ -112,11 +101,7 @@ function App({ user, documents }) {
       <main className={style.wrapper}>
         <Sidebar
           documents={documents}
-          handleStartDateChange={handleStartDateChange}
-          handleEndDateChange={handleEndDateChange}
-          startDate={startDate}
-          endDate={endDate}
-          handleFilterSubmit={handleFilterSubmit}
+          handleFilterUpdate={handleFilterUpdate}
         />
         <Main
           documents={transformedDocuments}
