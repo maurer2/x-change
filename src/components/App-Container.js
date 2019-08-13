@@ -63,7 +63,7 @@ const getShortDate = (dateString) => {
   const newDateString = `${day}-${month}-${year}`;
 
   return newDateString;
-}
+};
 
 const addShortDateToDocuments = (documents) => {
   const augmentedDocuments = documents.map((documentEntry) => {
@@ -79,6 +79,22 @@ const addShortDateToDocuments = (documents) => {
   return augmentedDocuments;
 };
 
+const filterDocumentsByType = (documents = [], allowedTypes = []) => {
+  if (documents.length === 0 || allowedTypes.length === 0) {
+    return [];
+  }
+
+  const filteredDocuments = documents.filter((documentEntry) => {
+    const documentName = documentEntry.name;
+    const fileEnding = documentName.split('.').pop();
+    const isAllowedType = allowedTypes.includes(fileEnding);
+
+    return isAllowedType;
+  });
+
+  return filteredDocuments;
+};
+
 function AppContainer() {
   const [documents, setDocuments] = useState([]);
   const [user, setUser] = useState({});
@@ -91,7 +107,11 @@ function AppContainer() {
           return;
         }
 
-        const augmentedDocuments = addShortDateToDocuments(responseData);
+        const rawDocuments = responseData;
+
+        const filteredDocuments = filterDocumentsByType(rawDocuments, ['pdf', 'docx']);
+        const augmentedDocuments = addShortDateToDocuments(filteredDocuments);
+
         setDocuments(augmentedDocuments);
       });
   }, []);

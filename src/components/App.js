@@ -7,22 +7,6 @@ import Sidebar from './Sidebar/Sidebar';
 import Main from './Main/Main';
 import Footer from './Footer/Footer';
 
-const filterDocumentsByType = (documents = [], allowedTypes = []) => {
-  if (documents.length === 0 || allowedTypes.length === 0) {
-    return [];
-  }
-
-  const filteredDocuments = documents.filter((documentEntry) => {
-    const documentName = documentEntry.name;
-    const fileEnding = documentName.split('.').pop();
-    const isAllowedType = allowedTypes.includes(fileEnding);
-
-    return isAllowedType;
-  });
-
-  return filteredDocuments;
-};
-
 const filterDocumentsByDate = (documents = [], startDate = '', endDate = '') => {
   if (startDate === '' || endDate === '') {
     return documents;
@@ -77,29 +61,22 @@ function App({ user, documents }) {
   const [filtersAreEnabled, setFiltersAreEnabled] = useState(false);
 
   useEffect(() => {
-    const filteredDocuments = filterDocumentsByType(documents, ['pdf', 'docx']);
-    const sortedByKeyDocuments = sortByDate
+    const filteredDocuments = (filtersAreEnabled)
+      ? filterDocumentsByDate(documents, startDate, endDate)
+      : documents;
+
+    const sortedDocuments = (sortByDate)
       ? sortResultsByDate(filteredDocuments)
       : sortResultsByName(filteredDocuments);
 
-    setTransformedDocuments(sortedByKeyDocuments);
-  }, [documents, sortByDate]);
+    setTransformedDocuments(sortedDocuments);
+  }, [documents, sortByDate, filtersAreEnabled, startDate, endDate]);
 
   useEffect(() => {
     const sortedByDirection = changeSortOrder(transformedDocuments);
 
     setTransformedDocuments(sortedByDirection);
   }, [sortInDescendingOrder]);
-
-  useEffect(() => {
-    if (filtersAreEnabled) {
-      const filteredByDate = filterDocumentsByDate(transformedDocuments, startDate, endDate);
-
-      setTransformedDocuments(filteredByDate);
-    }
-
-    console.log('filtersAreEnabled', filtersAreEnabled);
-  }, [filtersAreEnabled, startDate, endDate]);
 
   const handleSortChange = (sortByKey) => {
     const newSortByDateValue = (sortByKey === 'date');
@@ -134,7 +111,7 @@ function App({ user, documents }) {
       </h1>
       <main className={style.wrapper}>
         <Sidebar
-          documents={transformedDocuments}
+          documents={documents}
           handleStartDateChange={handleStartDateChange}
           handleEndDateChange={handleEndDateChange}
           startDate={startDate}
