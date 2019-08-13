@@ -16,7 +16,9 @@ const Main = ({ documents, handleSortChange, sortByDate, sortInDescendingOrder }
         sortByDate={sortByDate}
         sortInDescendingOrder={sortInDescendingOrder}
       />
-      <Pagination />
+      <Pagination
+        documents={documents}
+      />
     </div>
   );
 };
