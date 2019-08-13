@@ -1,12 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import style from './Main.module.scss';
 import Results from '../Results/Results';
 import Pagination from '../Pagination/Pagination';
 
+const getListSection = (list, startPosition, sectionLength) => {
+  const listSection = list.filter((_, index) => {
+    const isAfterStartPostion = index >= startPosition;
+    const isBeforeEndPosition = index < (startPosition + sectionLength);
+
+    return isAfterStartPostion && isBeforeEndPosition;
+  });
+
+  return listSection;
+};
+
 const Main = ({ documents, handleSortChange, sortByDate, sortInDescendingOrder }) => {
-  const resultsList = documents;
+  const [resultsList, setResultsList] = useState([]);
+  const [listStartPosition, setListStartPosition] = useState(0);
+
+  const itemsPerPage = 5;
+
+  useEffect(() => {
+    const listSection = getListSection(documents, listStartPosition, itemsPerPage);
+
+    setResultsList(listSection);
+  }, [documents, listStartPosition]);
+
+  const handleListPositionChange = (newListStartPosition) => {
+    setListStartPosition(newListStartPosition);
+  };
 
   return (
     <div className={style.main}>
@@ -17,7 +41,10 @@ const Main = ({ documents, handleSortChange, sortByDate, sortInDescendingOrder }
         sortInDescendingOrder={sortInDescendingOrder}
       />
       <Pagination
-        documents={documents}
+        listTotal={documents.length}
+        listStartPosition={listStartPosition}
+        itemsPerPage={itemsPerPage}
+        handleListPositionChange={handleListPositionChange}
       />
     </div>
   );

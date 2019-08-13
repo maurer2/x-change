@@ -10,8 +10,8 @@ const TableHeadButton = ({ sortByTarget, isActive, isInverted, handleOnClick, ch
       ${isActive ? style['tableHeadButton--isActive'] : ''}
       ${isInverted ? style['tableHeadButton--isInverted'] : ''}
     `}
-    type="button"
     onClick={() => handleOnClick(sortByTarget)}
+    type="button"
   >
     {children}
   </button>

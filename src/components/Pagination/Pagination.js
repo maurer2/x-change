@@ -3,20 +3,22 @@ import PropTypes from 'prop-types';
 
 import style from './Pagination.module.scss';
 
-const Pagination = ({ documents }) => {
+const Pagination = ({ listTotal, listStartPosition, itemsPerPage, handleListPositionChange }) => {
+  const [currentPage, setCurrentPage] = useState(0);
   const [maxPage, setMaxPage] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const itemsPerPage = 5;
 
   useEffect(() => {
-    const numberOfDocuments = documents.length / itemsPerPage;
+    const newCurrentPage = listStartPosition / itemsPerPage;
+    const newMaxPage = listTotal / itemsPerPage;
 
-    setMaxPage(Math.ceil(numberOfDocuments));
-  }, [documents]);
+    setCurrentPage(Math.ceil(newCurrentPage + 1));
+    setMaxPage(Math.ceil(newMaxPage));
+  }, [listTotal, listStartPosition, itemsPerPage]);
 
   const handleButtonClick = () => {
-    setCurrentPage(currentPage + 1);
+    const newListStartPosition = listStartPosition + itemsPerPage;
+
+    handleListPositionChange(newListStartPosition);
   };
 
   return (
@@ -43,7 +45,10 @@ const Pagination = ({ documents }) => {
 };
 
 Pagination.propTypes = {
-  documents: PropTypes.arrayOf(PropTypes.object).isRequired,
+  listTotal: PropTypes.number.isRequired,
+  listStartPosition: PropTypes.number.isRequired,
+  itemsPerPage: PropTypes.number.isRequired,
+  handleListPositionChange: PropTypes.func.isRequired,
 };
 
 export default Pagination;
