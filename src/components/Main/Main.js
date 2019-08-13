@@ -40,12 +40,14 @@ const Main = ({ documents, handleSortChange, sortByDate, sortInDescendingOrder }
         sortByDate={sortByDate}
         sortInDescendingOrder={sortInDescendingOrder}
       />
-      <Pagination
-        listTotal={documents.length}
-        listStartPosition={listStartPosition}
-        itemsPerPage={itemsPerPage}
-        handleListPositionChange={handleListPositionChange}
-      />
+      {documents.length > itemsPerPage && (
+        <Pagination
+          listTotal={documents.length}
+          listStartPosition={listStartPosition}
+          itemsPerPage={itemsPerPage}
+          handleListPositionChange={handleListPositionChange}
+        />
+      )}
     </div>
   );
 };

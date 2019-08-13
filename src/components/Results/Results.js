@@ -49,6 +49,12 @@ const Results = ({ resultsList, handleSortChange, sortByDate, sortInDescendingOr
     );
   };
 
+  const TableBodyRowEmpty = () => (
+    <tr>
+      <td colSpan="2">No results!</td>
+    </tr>
+  );
+
   const TableBodyRow = ({ entry, index }) => (
     <tr className={style.tableBodyRow} key={`tr-body-row-${index}`}>
       <td key={`td-${index}-name`}>{entry.name}</td>
@@ -56,15 +62,17 @@ const Results = ({ resultsList, handleSortChange, sortByDate, sortInDescendingOr
     </tr>
   );
 
+  const TableBodyRowList = resultsList.map((entry, index) => (
+    <TableBodyRow entry={entry} index={index} key={`tr-${index}`} />
+  ));
+
   return (
     <table className={style.table}>
       <thead>
         <TableHeadRow />
       </thead>
       <tbody>
-        {resultsList.map((entry, index) => (
-          <TableBodyRow entry={entry} index={index} key={`tr-${index}`} />
-        ))}
+        {(resultsList.length === 0) ? <TableBodyRowEmpty /> : [TableBodyRowList]}
       </tbody>
     </table>
   );
